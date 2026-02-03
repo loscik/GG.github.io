@@ -1,354 +1,751 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> ʚ Garadise ɞ </title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ʚ Garadise ɞ</title>
 
-  <style>
-    :root{
-      --bg:#070713;
-      --glass:rgba(255,255,255,.08);
-      --glass2:rgba(255,255,255,.12);
-      --line:rgba(255,255,255,.18);
-      --text:#f6f7ff;
-      --muted:rgba(246,247,255,.72);
-      --hot:#ff4fd8;
-      --cyan:#36e6ff;
-      --lime:#b6ff5a;
-      --violet:#7c5cff;
-      --shadow:0 18px 60px rgba(0,0,0,.45);
-      --radius:22px;
-    }
+<style>
+  :root{
+    --pink:#ff3fd8;       /* 玫粉 */
+    --blue:#79e7ff;       /* 淺藍 */
+    --yellow:#ffe680;     /* 嫩黃 */
+    --bg1:#050414;
+    --bg2:#0b0730;
+    --glass:rgba(255,255,255,.10);
+    --glass2:rgba(255,255,255,.14);
+    --line:rgba(255,255,255,.22);
+    --muted:rgba(255,255,255,.72);
+    --shadow:0 22px 70px rgba(0,0,0,.45);
+    --r:22px;
+  }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC","Microsoft YaHei", Arial;
-      background:
-        radial-gradient(1200px 800px at 15% 10%, rgba(54,230,255,.22), transparent 60%),
-        radial-gradient(1100px 720px at 85% 15%, rgba(255,79,216,.18), transparent 55%),
-        radial-gradient(900px 700px at 50% 95%, rgba(182,255,90,.12), transparent 60%),
-        linear-gradient(135deg, #070713 0%, #0b0920 40%, #08071a 100%);
-      overflow-x:hidden;
-    }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:#fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, "PingFang TC","PingFang HK",
+                 "Microsoft JhengHei","Noto Sans TC","Heiti TC", Arial, sans-serif;
+    letter-spacing:.2px;
+    background:
+      radial-gradient(1200px 800px at 12% 10%, rgba(255,63,216,.18), transparent 60%),
+      radial-gradient(1000px 700px at 86% 18%, rgba(121,231,255,.16), transparent 55%),
+      radial-gradient(900px 700px at 50% 92%, rgba(255,230,128,.10), transparent 60%),
+      linear-gradient(135deg,var(--bg1),var(--bg2));
+    overflow-x:hidden;
+  }
 
-    /* subtle “sparkle” noise */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      background-image:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,.22) 0 1px, transparent 1px),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,.18) 0 1px, transparent 1px),
-        radial-gradient(circle at 80% 30%, rgba(255,255,255,.16) 0 1px, transparent 1px),
-        radial-gradient(circle at 60% 10%, rgba(255,255,255,.12) 0 1px, transparent 1px);
-      background-size: 260px 260px, 320px 320px, 420px 420px, 520px 520px;
-      mix-blend-mode:screen;
-      opacity:.35;
-      pointer-events:none;
-    }
+  /* ✨ sparkle dust */
+  body:before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(255,255,255,.22) 0 1px, transparent 1px),
+      radial-gradient(circle at 44% 72%, rgba(255,255,255,.18) 0 1px, transparent 1px),
+      radial-gradient(circle at 78% 30%, rgba(255,255,255,.16) 0 1px, transparent 1px),
+      radial-gradient(circle at 64% 10%, rgba(255,255,255,.12) 0 1px, transparent 1px);
+    background-size: 260px 260px, 320px 320px, 420px 420px, 520px 520px;
+    mix-blend-mode:screen;
+    opacity:.35;
+    pointer-events:none;
+  }
 
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:1060px; margin:0 auto; padding:26px 16px 80px}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:18px 16px 80px}
 
-    /* top bar */
-    .top{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:10px 14px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      position:sticky; top:12px; z-index:20;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.4px;
-    }
-    .orb{
-      width:18px; height:18px; border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, #fff 0 20%, rgba(255,255,255,.2) 22%, transparent 55%),
-                  conic-gradient(from 180deg, var(--hot), var(--cyan), var(--lime), var(--violet), var(--hot));
-      box-shadow: 0 0 20px rgba(255,79,216,.35), 0 0 28px rgba(54,230,255,.22);
-    }
-    .nav{display:flex; gap:8px; flex-wrap:wrap}
-    .chip{
-      padding:8px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:rgba(0,0,0,.20);
-      font-size:13px;
-      color:var(--muted);
-    }
-    .chip:hover{color:var(--text); transform:translateY(-1px)}
+  /* top pill */
+  .top{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:12px 14px;border:1px solid var(--line);border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.06));
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    position:sticky;top:12px;z-index:30;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:1000}
+  .orb{
+    width:18px;height:18px;border-radius:999px;
+    background: radial-gradient(circle at 30% 30%, #fff 0 18%, rgba(255,255,255,.18) 20%, transparent 55%),
+                conic-gradient(from 180deg,var(--pink),var(--blue),var(--yellow),var(--pink));
+    box-shadow:0 0 22px rgba(255,63,216,.25), 0 0 20px rgba(121,231,255,.18);
+  }
+  .nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .chip{
+    padding:8px 12px;border:1px solid var(--line);border-radius:999px;
+    background:rgba(0,0,0,.22);color:var(--muted);font-size:13px;
+    cursor:pointer; user-select:none;
+  }
+  .chip:hover{color:#fff;transform:translateY(-1px)}
+  .chip.on{background:linear-gradient(135deg,rgba(255,63,216,.30),rgba(121,231,255,.18));color:#fff}
+  .chip.tiny{padding:7px 10px;font-size:12px}
 
-    /* hero */
-    .hero{
-      margin-top:16px;
-      border-radius: var(--radius);
-      border:1px solid var(--line);
-      background:
-        radial-gradient(900px 400px at 20% 10%, rgba(255,79,216,.18), transparent 60%),
-        radial-gradient(700px 420px at 90% 20%, rgba(54,230,255,.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      overflow:hidden;
-      position:relative;
-    }
+  /* hero */
+  .hero{
+    margin-top:14px;
+    border:1px solid var(--line);
+    border-radius: var(--r);
+    background:
+      radial-gradient(900px 420px at 15% 10%, rgba(255,63,216,.18), transparent 60%),
+      radial-gradient(800px 460px at 92% 14%, rgba(121,231,255,.18), transparent 55%),
+      linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.06));
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    overflow:hidden; position:relative;
+  }
+  /* chrome shine */
+  .hero:after{
+    content:"";
+    position:absolute; inset:-2px;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.16) 18%, transparent 36%, rgba(255,255,255,.10) 52%, transparent 68%, rgba(255,255,255,.16) 86%, transparent 100%);
+    transform: translateX(-35%);
+    animation: shine 6s linear infinite;
+    pointer-events:none;
+    opacity:.85;
+  }
+  @keyframes shine{0%{transform:translateX(-45%)}100%{transform:translateX(45%)}}
+  .heroInner{padding:22px 22px 18px}
+  .kicker{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+  .tag{
+    padding:6px 10px;border-radius:999px;
+    border:1px dashed rgba(255,255,255,.28);
+    background:rgba(0,0,0,.18);
+  }
+  h1{margin:12px 0 8px;font-size:52px;line-height:1.02;letter-spacing:.3px}
+  .nameGlow{
+    background: linear-gradient(90deg, var(--blue), #fff, var(--pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter: drop-shadow(0 0 16px rgba(255,63,216,.18));
+  }
+  .sub{margin:0;color:var(--muted);line-height:1.7;max-width:72ch}
+  .heroRow{
+    margin-top:14px;
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:12px 14px;border-radius:16px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,.22);
+    box-shadow:0 10px 26px rgba(0,0,0,.25);
+    font-weight:900;font-size:14px;cursor:pointer;
+  }
+  .btn.primary{border:none;background:linear-gradient(135deg,rgba(255,63,216,.95),rgba(138,92,255,.95))}
+  .btn .dot{width:10px;height:10px;border-radius:999px;background:var(--blue);box-shadow:0 0 16px rgba(121,231,255,.55)}
+  .btn.primary .dot{background:#fff;box-shadow:none}
+  .btn:hover{transform:translateY(-1px)}
+  .counter{color:rgba(255,255,255,.6);font-size:12px}
 
-    /* chrome line */
-    .hero:after{
-      content:"";
-      position:absolute; inset:-2px;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.14) 18%, transparent 36%, rgba(255,255,255,.10) 52%, transparent 68%, rgba(255,255,255,.14) 86%, transparent 100%);
-      transform: translateX(-35%);
-      animation: shine 6s linear infinite;
-      pointer-events:none;
-      opacity:.8;
-    }
-    @keyframes shine{
-      0%{transform:translateX(-45%)}
-      100%{transform:translateX(45%)}
-    }
+  /* panel */
+  .panel{
+    margin-top:14px;
+    border:1px solid var(--line);
+    border-radius: var(--r);
+    background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.06));
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .panelHead{
+    padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+  .panelTitle{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75);
+  }
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
 
-    .heroInner{padding:26px}
-    .kicker{
-      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-      color:var(--muted);
-      font-size:13px;
-    }
-    .tag{
-      padding:6px 10px;
-      border:1px dashed rgba(255,255,255,.28);
-      border-radius:999px;
-      background:rgba(0,0,0,.18);
-    }
+  /* gallery grid */
+  .grid{
+    padding:16px;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:12px;
+  }
+  @media (max-width:1000px){.grid{grid-template-columns: repeat(3, 1fr)}}
+  @media (max-width:760px){.grid{grid-template-columns: repeat(2, 1fr)} h1{font-size:40px}}
+  @media (max-width:460px){.grid{grid-template-columns: 1fr}}
 
-    h1{
-      margin:12px 0 8px;
-      font-size:52px;
-      line-height:1.02;
-      letter-spacing:.3px;
-      text-shadow: 0 0 22px rgba(54,230,255,.12);
-    }
-    .nameGlow{
-      background: linear-gradient(90deg, var(--cyan), #fff, var(--hot));
-      -webkit-background-clip:text; background-clip:text;
-      color:transparent;
-      filter: drop-shadow(0 0 18px rgba(255,79,216,.18));
-    }
-    .sub{
-      margin:0;
-      max-width:68ch;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:16px;
-    }
+  .tile{
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(0,0,0,.18);
+    overflow:hidden;
+    cursor:pointer;
+    position:relative;
+    box-shadow:0 12px 30px rgba(0,0,0,.30);
+    transform: translateZ(0);
+  }
+  .tile:hover{transform:translateY(-2px)}
+  .thumb{
+    width:100%; aspect-ratio: 1 / 1; object-fit:cover; display:block;
+    filter:saturate(1.05) contrast(1.02);
+  }
+  .cap{
+    padding:10px 12px;
+    display:flex;justify-content:space-between;gap:10px;align-items:center;
+  }
+  .cap b{font-size:13px}
+  .cap span{font-size:12px;color:rgba(255,255,255,.65)}
+  .badge{
+    position:absolute; top:10px; left:10px;
+    padding:6px 10px; border-radius:999px;
+    background:rgba(0,0,0,.28);
+    border:1px solid rgba(255,255,255,.18);
+    font-size:12px; color:rgba(255,255,255,.85);
+    backdrop-filter: blur(10px);
+  }
+  .sticker{
+    position:absolute; right:10px; top:10px;
+    width:34px; height:34px; border-radius:12px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.08);
+    backdrop-filter: blur(10px);
+    display:grid; place-items:center;
+    box-shadow:0 10px 26px rgba(0,0,0,.25);
+    font-size:16px;
+  }
 
-    .ctaRow{margin-top:16px; display:flex; gap:10px; flex-wrap:wrap}
-    .btn{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:12px 14px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.20);
-      box-shadow: 0 10px 24px rgba(0,0,0,.25);
-      font-weight:700;
-      font-size:14px;
-    }
-    .btn .ico{width:10px; height:10px; border-radius:999px; background:var(--cyan); box-shadow:0 0 16px rgba(54,230,255,.55)}
-    .btn.hot{
-      border:none;
-      background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(124,92,255,.95));
-    }
-    .btn.hot .ico{background:#fff; box-shadow:none}
-    .btn:hover{transform:translateY(-1px)}
+  /* pagination */
+  .pager{
+    padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+    border-top:1px solid rgba(255,255,255,.12);
+  }
+  .pageNums{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .pageBtn{
+    padding:8px 12px;border-radius:999px;border:1px solid var(--line);
+    background:rgba(0,0,0,.22);color:rgba(255,255,255,.78);
+    cursor:pointer;font-size:13px;font-weight:900;
+  }
+  .pageBtn:hover{color:#fff;transform:translateY(-1px)}
+  .pageBtn.on{background:linear-gradient(135deg,rgba(255,63,216,.30),rgba(121,231,255,.20));color:#fff}
+  .pageBtn:disabled{opacity:.5;cursor:not-allowed}
 
-    /* layout */
-    .grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
-    }
-    .card{
-      border-radius: var(--radius);
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      padding:18px;
-    }
-    .title{
-      margin:0 0 10px;
-      font-size:13px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:rgba(246,247,255,.78);
-    }
-    .list{display:flex; flex-direction:column; gap:10px}
-    .item{
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.18);
-    }
-    .item b{display:block; font-size:14px}
-    .item span{display:block; color:var(--muted); margin-top:6px; line-height:1.6; font-size:13px}
+  /* modal */
+  .modal{
+    position:fixed; inset:0; z-index:60;
+    display:none; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.62);
+    padding:18px;
+  }
+  .modal.on{display:flex}
+  .modalCard{
+    width:min(980px, 96vw);
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.20);
+    background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.06));
+    backdrop-filter: blur(14px);
+    box-shadow:0 28px 90px rgba(0,0,0,.55);
+    overflow:hidden;
+  }
+  .modalTop{
+    padding:12px 14px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+  .modalTop b{font-size:14px}
+  .x{
+    width:38px;height:38px;border-radius:14px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(0,0,0,.20);
+    cursor:pointer;font-weight:900;color:#fff;
+  }
+  .modalBody{display:grid;grid-template-columns: 1.4fr .6fr}
+  @media (max-width:900px){.modalBody{grid-template-columns:1fr}}
+  .modalImg{width:100%;height:100%;max-height:70vh;object-fit:contain;background:rgba(0,0,0,.22)}
+  .side{padding:14px}
+  .meta{color:rgba(255,255,255,.70);font-size:13px;line-height:1.7}
+  .modalActions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+  .note{margin-top:10px;color:rgba(255,255,255,.55);font-size:12px;line-height:1.6}
 
-    /* “Now playing” */
-    .player{
-      display:flex; align-items:center; gap:12px;
-      padding:12px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.16);
-      background:rgba(0,0,0,.22);
-      overflow:hidden;
-    }
-    .disc{
-      width:44px; height:44px; border-radius:999px;
-      background:
-        radial-gradient(circle at 35% 35%, #fff 0 18%, rgba(255,255,255,.18) 20%, transparent 55%),
-        conic-gradient(from 0deg, var(--hot), var(--cyan), var(--lime), var(--violet), var(--hot));
-      box-shadow: 0 0 26px rgba(54,230,255,.18);
-      animation: spin 7s linear infinite;
-      flex:0 0 auto;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .bar{
-      height:8px; border-radius:999px; overflow:hidden; flex:1;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.12);
-    }
-    .bar > i{
-      display:block; height:100%; width:58%;
-      background:linear-gradient(90deg, var(--cyan), var(--hot));
-      border-radius:999px;
-      box-shadow:0 0 18px rgba(255,79,216,.22);
-      animation: prog 3.8s ease-in-out infinite alternate;
-    }
-    @keyframes prog{from{width:38%}to{width:78%}}
+  /* floating stickers layer */
+  #floatLayer{
+    position:fixed; inset:0; pointer-events:none; z-index:10;
+    overflow:hidden;
+  }
+  .floatSticker{
+    position:absolute;
+    font-size:22px;
+    opacity:.75;
+    filter: drop-shadow(0 0 14px rgba(255,63,216,.18));
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp{
+    from{ transform: translateY(120vh) rotate(0deg); opacity:.0; }
+    10%{opacity:.75}
+    to{ transform: translateY(-20vh) rotate(360deg); opacity:.0; }
+  }
 
-    /* footer */
-    .footer{
-      margin-top:14px;
-      text-align:center;
-      color:rgba(246,247,255,.55);
-      font-size:12px;
-    }
+  /* mouse trail */
+  #trailLayer{
+    position:fixed; inset:0; pointer-events:none; z-index:50;
+  }
+  .trailDot{
+    position:absolute;
+    width:10px;height:10px;border-radius:999px;
+    background: radial-gradient(circle at 30% 30%, #fff 0 30%, rgba(255,255,255,.18) 40%, transparent 60%),
+                conic-gradient(from 180deg,var(--pink),var(--blue),var(--yellow),var(--pink));
+    box-shadow:0 0 16px rgba(121,231,255,.22), 0 0 18px rgba(255,63,216,.22);
+    transform: translate(-50%,-50%);
+    opacity:.0;
+    transition: opacity .25s ease;
+  }
 
-    /* responsive */
-    @media (max-width: 900px){
-      h1{font-size:42px}
-      .grid{grid-template-columns:1fr}
-    }
-  </style>
+  .footer{margin-top:14px;text-align:center;color:rgba(255,255,255,.55);font-size:12px}
+</style>
 </head>
 
 <body>
+  <!-- 漂浮貼紙層 / 鼠標拖尾層 -->
+  <div id="floatLayer"></div>
+  <div id="trailLayer"></div>
+
   <div class="wrap">
     <div class="top">
-      <div class="brand">
-        <span class="orb"></span>
-        <span>GG</span>
-        <span style="color:var(--muted); font-weight:600; font-size:13px;">☆ y2k mode</span>
-      </div>
+      <div class="brand"><span class="orb"></span> GG <span style="color:var(--muted);font-weight:900;font-size:13px;">♡ 作品牆模式</span></div>
       <div class="nav">
-        <a class="chip" href="#about">About</a>
-        <a class="chip" href="#projects">Projects</a>
-        <a class="chip" href="#links">Links</a>
-        <a class="chip" href="#contact">Contact</a>
+        <span class="chip on" id="navWall">作品牆</span>
+        <span class="chip" id="navAbout">關於我</span>
+        <span class="chip" id="navLinks">連結</span>
+        <span class="chip" id="navContact">聯絡</span>
+        <span class="chip tiny" id="toggleSound">🔊 音效：開</span>
+        <span class="chip tiny" id="toggleFX">✨ 特效：開</span>
       </div>
     </div>
 
-    <section class="hero" id="about">
+    <section class="hero">
       <div class="heroInner">
         <div class="kicker">
-          <span class="tag">🪩 2000s vibe</span>
-          <span class="tag">✨ sparkles</span>
-          <span class="tag">💿 chrome + neon</span>
+          <span class="tag">🐶 來福</span>
+          <span class="tag">🪞 自拍</span>
+          <span class="tag">🏝️ 旅行</span>
+          <span class="tag">🫧 日常</span>
+          <span class="tag">💄 妝容</span>
+          <span class="tag">💎 亮晶晶</span>
         </div>
-
-        <h1>Hi, I'm <span class="nameGlow">GG</span>.</h1>
+        <h1>歡迎來到 <span class="nameGlow">GG</span> 的牆。</h1>
         <p class="sub">
-          Welcome to Garadise.
-          Enjoy yourself here.
+          這裡收集：我的自拍、旅行風景、來福瞬間、日常碎片、妝容記錄。
+          點開卡片可大圖瀏覽，支援 Prev / Next 與分頁。
         </p>
 
-        <div class="ctaRow">
-          <a class="btn hot" href="#projects"><span class="ico"></span>看看我在做什么</a>
-          <a class="btn" href="#contact"><span class="ico"></span>联系我</a>
-          <a class="btn" href="#links"><span class="ico"></span>我的链接</a>
+        <div class="heroRow">
+          <button class="btn primary" id="btnRandom"><span class="dot"></span>隨機開一張</button>
+          <button class="btn" id="btnTop"><span class="dot"></span>回到頂端</button>
+          <div class="counter" id="counterText">0 張 • 第 1/1 頁</div>
         </div>
       </div>
     </section>
 
-    <section class="grid">
-      <div class="card" id="projects">
-        <h2 class="title">Projects / Things</h2>
-        <div class="list">
-          <div class="item">
-            <b>🧩 Project A</b>
-            <span>一句话介绍：I'm building my paradise. </span>
-          </div>
-          <div class="item">
-            <b>🫧 Moodboard</b>
-            <span>Y2K / neon / chrome / bubble text / pink & cyan —— 永远不腻。</span>
-          </div>
-          <div class="item">
-            <b>📚 Learning</b>
-            <span>正在学：GitHub Pages / 个人品牌 / 做一个“会自己发光”的主页。</span>
-          </div>
-        </div>
+    <section class="panel" id="panel">
+      <div class="panelHead">
+        <div class="panelTitle">Gallery / Wall</div>
+        <div class="filters" id="tagFilters"></div>
       </div>
 
-      <div class="card" id="links">
-        <h2 class="title">Now Playing</h2>
-        <div class="player" style="margin-bottom:12px;">
-          <div class="disc"></div>
-          <div style="min-width:0;">
-            <div style="font-weight:800;">GG — midnight neon</div>
-            <div style="color:var(--muted); font-size:13px; margin-top:4px;">00:42 / 02:58</div>
-          </div>
-          <div class="bar" aria-label="progress"><i></i></div>
-        </div>
+      <div class="grid" id="grid"></div>
 
-        <h2 class="title">Links</h2>
-        <div class="list">
-          <a class="item" href="https://www.xiaohongshu.com/user/profile/5b67d75c0663c40001eecc7c" target="_blank" rel="noreferrer">
-            <b>🌐 Instagram / X / 小红书（填你的链接）</b>
-            <span>把 # 改成你的真实地址。</span>
-          </a>
-          <a class="item" href="#" target="_blank" rel="noreferrer">
-            <b>📷 Portfolio / Photo（填你的链接）</b>
-            <span>可以放作品集、相册、Notion 等。</span>
-          </a>
-          <a class="item" href="https://loscik.github.io/GG.github.io/" target="_blank" rel="noreferrer">
-            <b>💻 GitHub（填你的链接）</b>
-            <span>把 # 改成你的 GitHub 主页。</span>
-          </a>
+      <div class="pager">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <button class="pageBtn" id="prevBtn">Prev</button>
+          <button class="pageBtn" id="nextBtn">Next</button>
         </div>
+        <div class="pageNums" id="pageNums"></div>
       </div>
     </section>
 
-    <section class="card" id="contact" style="margin-top:14px;">
-      <h2 class="title">Contact</h2>
-      <div class="list">
-        <div class="item">
-          <b>📧 Email</b>
-          <span><a href="gegewang365@gmail.com">yourname@email.com</a>（改成你的邮箱）</span>
-        </div>
-        <div class="item">
-          <b>💬 Bio</b>
-          <span>一句话：我是谁 + 我喜欢什么风格 + 我在做什么（越像你越好）。</span>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">© GG • built with GitHub Pages • y2k forever ✨</div>
+    <div class="footer">© GG ✧ y2k wall • 玫粉/淺藍/嫩黃/黑白 • 閃閃發光 ✨</div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalTop">
+        <b id="modalTitle">Title</b>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="pageBtn" id="mPrev">Prev</button>
+          <button class="pageBtn" id="mNext">Next</button>
+          <button class="x" id="mClose" aria-label="close">✕</button>
+        </div>
+      </div>
+      <div class="modalBody">
+        <img class="modalImg" id="modalImg" alt="work"/>
+        <div class="side">
+          <div class="meta" id="modalMeta"></div>
+          <div class="modalActions">
+            <a class="pageBtn" id="mOpen" target="_blank" rel="noreferrer">Open</a>
+            <a class="pageBtn" id="mDownload" download>Download</a>
+          </div>
+          <div class="note">
+            把你的照片放到 <b>/assets/</b>，再在本檔案的 <b>GALLERY</b> 陣列填入檔名即可。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/** =========================
+ * ✅ 把你的照片放到倉庫 /assets/
+ * 然後在這裡填檔名與分類：
+ * categories: raifu / selfie / travel / daily / makeup
+ * tags 可隨意加：bling / heart / polka / fish / undersea / leopard / denim / pink / blue / yellow / black / white
+ * ========================= */
+const GALLERY = [
+  // 先放示例，你把 src 換成你自己的檔名就好：
+  { title:"來福 01",   src:"assets/raifu-01.jpg",  categories:["raifu"],  tags:["heart","bling","pink"] },
+  { title:"自拍 01",   src:"assets/selfie-01.jpg", categories:["selfie"], tags:["bling","pink","white"] },
+  { title:"旅行 01",   src:"assets/travel-01.jpg", categories:["travel"], tags:["blue","undersea","fish"] },
+  { title:"日常 01",   src:"assets/daily-01.jpg",  categories:["daily"],  tags:["polka","yellow"] },
+  { title:"妝容 01",   src:"assets/makeup-01.jpg", categories:["makeup"], tags:["bling","pink","black"] },
+
+  // 你可以繼續新增：
+  // { title:"來福 02", src:"assets/raifu-02.jpg", categories:["raifu"], tags:["heart","blue"] },
+];
+
+const TAGS = [
+  { key:"all", label:"全部" },
+
+  { key:"raifu",  label:"🐶 來福" },
+  { key:"selfie", label:"🪞 自拍" },
+  { key:"travel", label:"🏝️ 旅行" },
+  { key:"daily",  label:"🫧 日常" },
+  { key:"makeup", label:"💄 妝容" },
+
+  { key:"bling",  label:"💎 亮晶晶" },
+  { key:"heart",  label:"♡ 愛心" },
+  { key:"polka",  label:"• 波點" },
+  { key:"fish",   label:"🐟 魚" },
+  { key:"undersea",label:"🌊 海底" },
+  { key:"leopard",label:"🐆 豹紋" },
+  { key:"denim",  label:"👖 牛仔" },
+
+  { key:"pink",   label:"💗 玫粉" },
+  { key:"blue",   label:"🩵 淺藍" },
+  { key:"yellow", label:"💛 嫩黃" },
+  { key:"black",  label:"🖤 黑" },
+  { key:"white",  label:"🤍 白" },
+];
+
+const pageSize = 8;
+let currentTag = "all";
+let currentPage = 1;
+let filtered = [];
+let modalIndex = -1;
+
+const grid = document.getElementById("grid");
+const tagFilters = document.getElementById("tagFilters");
+const pageNums = document.getElementById("pageNums");
+const counterText = document.getElementById("counterText");
+
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalImg = document.getElementById("modalImg");
+const modalMeta = document.getElementById("modalMeta");
+const mOpen = document.getElementById("mOpen");
+const mDownload = document.getElementById("mDownload");
+
+function esc(s){return (s||"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]))}
+
+/* ========= Click sound (WebAudio) =========
+   注意：瀏覽器限制自動播放，所以第一次點擊會自動啟動音效引擎。
+*/
+let soundEnabled = true;
+let audioCtx = null;
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if(audioCtx.state === "suspended") audioCtx.resume();
+}
+function bling(){
+  if(!soundEnabled) return;
+  ensureAudio();
+  const t = audioCtx.currentTime;
+
+  const o1 = audioCtx.createOscillator();
+  const g1 = audioCtx.createGain();
+  o1.type = "triangle";
+  o1.frequency.setValueAtTime(1200, t);
+  o1.frequency.exponentialRampToValueAtTime(500, t + 0.08);
+  g1.gain.setValueAtTime(0.0001, t);
+  g1.gain.exponentialRampToValueAtTime(0.12, t + 0.01);
+  g1.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+
+  const o2 = audioCtx.createOscillator();
+  const g2 = audioCtx.createGain();
+  o2.type = "sine";
+  o2.frequency.setValueAtTime(1800, t);
+  o2.frequency.exponentialRampToValueAtTime(900, t + 0.06);
+  g2.gain.setValueAtTime(0.0001, t);
+  g2.gain.exponentialRampToValueAtTime(0.08, t + 0.008);
+  g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.10);
+
+  o1.connect(g1).connect(audioCtx.destination);
+  o2.connect(g2).connect(audioCtx.destination);
+  o1.start(t); o2.start(t);
+  o1.stop(t+0.14); o2.stop(t+0.12);
+}
+
+/* ========= Floating stickers ========= */
+let fxEnabled = true;
+const floatLayer = document.getElementById("floatLayer");
+const stickers = ["♡","💎","✨","🫧","🐟","🌊","•","🖤","🤍","💛","🩵"];
+let floatTimer = null;
+
+function startFloat(){
+  if(floatTimer) return;
+  floatTimer = setInterval(()=>{
+    if(!fxEnabled) return;
+    const el = document.createElement("div");
+    el.className = "floatSticker";
+    el.textContent = stickers[Math.floor(Math.random()*stickers.length)];
+    el.style.left = Math.random()*100 + "vw";
+    el.style.animationDuration = (8 + Math.random()*10) + "s";
+    el.style.fontSize = (18 + Math.random()*18) + "px";
+    el.style.filter = `drop-shadow(0 0 14px rgba(255,63,216,.18))`;
+    floatLayer.appendChild(el);
+    setTimeout(()=> el.remove(), 20000);
+  }, 420);
+}
+function stopFloat(){
+  clearInterval(floatTimer); floatTimer = null;
+  floatLayer.innerHTML = "";
+}
+
+/* ========= Mouse trail ========= */
+const trailLayer = document.getElementById("trailLayer");
+const trailDots = [];
+const TRAIL_N = 16;
+for(let i=0;i<TRAIL_N;i++){
+  const d = document.createElement("div");
+  d.className = "trailDot";
+  d.style.opacity = "0";
+  trailLayer.appendChild(d);
+  trailDots.push({el:d, x:0, y:0});
+}
+let mouseX = 0, mouseY = 0;
+let hasMouse = false;
+
+function onMove(e){
+  if(!fxEnabled) return;
+  hasMouse = true;
+  mouseX = e.clientX; mouseY = e.clientY;
+}
+window.addEventListener("mousemove", onMove);
+
+function animateTrail(){
+  requestAnimationFrame(animateTrail);
+  if(!fxEnabled || !hasMouse) return;
+
+  // follow chain
+  let x = mouseX, y = mouseY;
+  for(let i=0;i<trailDots.length;i++){
+    const p = trailDots[i];
+    p.x += (x - p.x) * 0.28;
+    p.y += (y - p.y) * 0.28;
+    p.el.style.left = p.x + "px";
+    p.el.style.top  = p.y + "px";
+    p.el.style.opacity = (0.55 - i*0.03).toFixed(2);
+    x = p.x; y = p.y;
+  }
+}
+animateTrail();
+
+function setFX(on){
+  fxEnabled = on;
+  document.getElementById("toggleFX").textContent = on ? "✨ 特效：開" : "✨ 特效：關";
+  if(on){ startFloat(); }
+  else{
+    stopFloat();
+    trailDots.forEach(d=> d.el.style.opacity="0");
+  }
+}
+
+/* ========= Gallery logic ========= */
+function buildTags(){
+  tagFilters.innerHTML = "";
+  TAGS.forEach(t=>{
+    const b = document.createElement("span");
+    b.className = "chip" + (t.key===currentTag ? " on":"");
+    b.textContent = t.label;
+    b.onclick = ()=>{ bling(); currentTag = t.key; currentPage = 1; render(); };
+    tagFilters.appendChild(b);
+  });
+}
+function applyFilter(){
+  if(currentTag==="all") return [...GALLERY];
+
+  // 先匹配分類 categories，再匹配 tags
+  return GALLERY.filter(x=>{
+    const cats = x.categories || [];
+    const tags = x.tags || [];
+    return cats.includes(currentTag) || tags.includes(currentTag);
+  });
+}
+function pagesCount(list){
+  return Math.max(1, Math.ceil(list.length / pageSize));
+}
+function pickSticker(item){
+  const cats = new Set(item.categories||[]);
+  const tags = new Set(item.tags||[]);
+  if(cats.has("raifu")) return "🐶";
+  if(cats.has("selfie")) return "🪞";
+  if(cats.has("travel")) return "🏝️";
+  if(cats.has("daily")) return "🫧";
+  if(cats.has("makeup")) return "💄";
+  if(tags.has("bling")) return "💎";
+  if(tags.has("heart")) return "♡";
+  if(tags.has("fish")||tags.has("undersea")) return "🐟";
+  if(tags.has("polka")) return "•";
+  return "✨";
+}
+
+function renderGrid(list){
+  grid.innerHTML = "";
+  const totalPages = pagesCount(list);
+  if(currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage-1)*pageSize;
+  const pageItems = list.slice(start, start+pageSize);
+
+  pageItems.forEach((item, i)=>{
+    const realIndex = start + i;
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.onclick = ()=>{ bling(); openModal(realIndex); };
+
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    const catLabel = (item.categories||[])[0] || "GG";
+    badge.textContent = catLabel;
+
+    const sticker = document.createElement("div");
+    sticker.className = "sticker";
+    sticker.textContent = pickSticker(item);
+
+    const img = document.createElement("img");
+    img.className = "thumb";
+    img.src = item.src;
+    img.alt = item.title || "work";
+    img.loading = "lazy";
+
+    const cap = document.createElement("div");
+    cap.className = "cap";
+    cap.innerHTML = `<b>${esc(item.title||"未命名")}</b><span>#${realIndex+1}</span>`;
+
+    tile.appendChild(img);
+    tile.appendChild(badge);
+    tile.appendChild(sticker);
+    tile.appendChild(cap);
+    grid.appendChild(tile);
+  });
+
+  counterText.textContent = `${list.length} 張 • 第 ${currentPage}/${totalPages} 頁`;
+}
+
+function renderPager(list){
+  const totalPages = pagesCount(list);
+  pageNums.innerHTML = "";
+  const max = 7;
+  let left = Math.max(1, currentPage - Math.floor(max/2));
+  let right = Math.min(totalPages, left + max - 1);
+  left = Math.max(1, right - max + 1);
+
+  for(let p=left; p<=right; p++){
+    const b = document.createElement("button");
+    b.className = "pageBtn" + (p===currentPage ? " on":"");
+    b.textContent = "Page " + p;
+    b.onclick = ()=>{ bling(); currentPage = p; render(); };
+    pageNums.appendChild(b);
+  }
+
+  document.getElementById("prevBtn").disabled = (currentPage<=1);
+  document.getElementById("nextBtn").disabled = (currentPage>=totalPages);
+}
+
+document.getElementById("prevBtn").onclick = ()=>{ bling(); currentPage = Math.max(1, currentPage-1); render(); };
+document.getElementById("nextBtn").onclick = ()=>{ bling(); currentPage = Math.min(pagesCount(filtered), currentPage+1); render(); };
+
+function openModal(index){
+  filtered = applyFilter();
+  if(index<0 || index>=filtered.length) return;
+  modalIndex = index;
+  const item = filtered[index];
+
+  modalTitle.textContent = item.title || "未命名";
+  modalImg.src = item.src;
+  const cats = (item.categories||[]).join(" / ") || "—";
+  const tags = (item.tags||[]).join(" · ") || "—";
+
+  modalMeta.innerHTML =
+    `<div><b>分類：</b>${esc(cats)}</div>
+     <div><b>標籤：</b>${esc(tags)}</div>
+     <div style="margin-top:10px;"><b>色系：</b>玫粉 / 淺藍 / 嫩黃 / 黑白 ✨</div>`;
+
+  mOpen.href = item.src;
+  mDownload.href = item.src;
+
+  const ext = (item.src.split(".").pop() || "jpg").toLowerCase();
+  mDownload.download = (item.title || "GG") + "." + ext;
+
+  modal.classList.add("on");
+  modal.setAttribute("aria-hidden","false");
+}
+function closeModal(){
+  modal.classList.remove("on");
+  modal.setAttribute("aria-hidden","true");
+}
+document.getElementById("mClose").onclick = ()=>{ bling(); closeModal(); };
+modal.addEventListener("click", (e)=>{ if(e.target===modal) { bling(); closeModal(); } });
+
+function modalPrev(){ if(modalIndex>0) { bling(); openModal(modalIndex-1); } }
+function modalNext(){ if(modalIndex<filtered.length-1) { bling(); openModal(modalIndex+1); } }
+document.getElementById("mPrev").onclick = modalPrev;
+document.getElementById("mNext").onclick = modalNext;
+window.addEventListener("keydown",(e)=>{
+  if(!modal.classList.contains("on")) return;
+  if(e.key==="Escape") closeModal();
+  if(e.key==="ArrowLeft") modalPrev();
+  if(e.key==="ArrowRight") modalNext();
+});
+
+function render(){
+  buildTags();
+  filtered = applyFilter();
+  renderGrid(filtered);
+  renderPager(filtered);
+}
+
+/* hero buttons */
+document.getElementById("btnRandom").onclick = ()=>{
+  bling();
+  filtered = applyFilter();
+  if(!filtered.length) return;
+  const r = Math.floor(Math.random()*filtered.length);
+  openModal(r);
+};
+document.getElementById("btnTop").onclick = ()=>{ bling(); window.scrollTo({top:0, behavior:"smooth"}); };
+
+/* nav */
+document.getElementById("navWall").onclick = ()=>{ bling(); window.scrollTo({top:0, behavior:"smooth"}); };
+document.getElementById("navAbout").onclick = ()=>{ bling(); alert("你可以把『關於我』做成一個區塊（我可以下一步幫你加：自介＋喜好＋小小年表）。"); };
+document.getElementById("navLinks").onclick = ()=>{ bling(); alert("連結區可放：IG/小紅書/作品集/Spotify 等（我也可以幫你排版成很千禧的按鈕牆）。"); };
+document.getElementById("navContact").onclick = ()=>{ bling(); alert("聯絡區可放：Email/WhatsApp/二维码（需要你給我想放的方式）。"); };
+
+/* toggles */
+document.getElementById("toggleSound").onclick = ()=>{
+  // 第一次點會喚醒 AudioContext
+  soundEnabled = !soundEnabled;
+  document.getElementById("toggleSound").textContent = soundEnabled ? "🔊 音效：開" : "🔇 音效：關";
+  bling();
+};
+document.getElementById("toggleFX").onclick = ()=>{ bling(); setFX(!fxEnabled); };
+
+/* start */
+setFX(true);
+render();
+</script>
 </body>
 </html>
