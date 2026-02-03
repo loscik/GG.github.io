@@ -409,28 +409,12 @@ const GALLERY = [
 const TAGS = [
   { key:"all", label:"全部" },
 
-  { key:"raifu",  label:"🐶 來福" },
-  { key:"selfie", label:"🪞 自拍" },
   { key:"raifu",  label:"🦴 來福" },
   { key:"selfie", label:"📱 自拍" },
   { key:"travel", label:"🏝️ 旅行" },
-  { key:"daily",  label:"🫧 日常" },
   { key:"daily",  label:"🚶‍♀️ 日常" },
   { key:"makeup", label:"💄 妝容" },
 
-  { key:"bling",  label:"💎 亮晶晶" },
-  { key:"heart",  label:"♡ 愛心" },
-  { key:"polka",  label:"• 波點" },
-  { key:"fish",   label:"🐟 魚" },
-  { key:"undersea",label:"🌊 海底" },
-  { key:"leopard",label:"🐆 豹紋" },
-  { key:"denim",  label:"👖 牛仔" },
-
-  { key:"pink",   label:"💗 玫粉" },
-  { key:"blue",   label:"🩵 淺藍" },
-  { key:"yellow", label:"💛 嫩黃" },
-  { key:"black",  label:"🖤 黑" },
-  { key:"white",  label:"🤍 白" },
 ];
 
 const pageSize = 8;
@@ -496,7 +480,7 @@ function bling(){
 /* ========= Floating stickers ========= */
 let fxEnabled = true;
 const floatLayer = document.getElementById("floatLayer");
-const stickers = ["♡","💎","✨","🫧","🐟","🌊","•","🖤","🤍","💛","🩵"];
+const stickers = ["♡","💎","✨","🐟","🌊","•","🖤","🤍"];
 let floatTimer = null;
 
 function startFloat(){
@@ -596,16 +580,13 @@ function pickSticker(item){
   const cats = new Set(item.categories||[]);
   const tags = new Set(item.tags||[]);
   if(cats.has("raifu")) return "🐶";
-  if(cats.has("selfie")) return "🪞";
   if(cats.has("selfie")) return "📱";
   if(cats.has("travel")) return "🏝️";
-  if(cats.has("daily")) return "🫧";
   if(cats.has("makeup")) return "💄";
   if(tags.has("bling")) return "💎";
   if(tags.has("heart")) return "♡";
   if(tags.has("fish")||tags.has("undersea")) return "🐟";
   if(cats.has("daily")) return "🚶‍♀️";
-  if(cats.has("makeup")) return "💄"
   if(tags.has("polka")) return "•";
   return "✨";
 }
