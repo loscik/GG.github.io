@@ -325,6 +325,7 @@
           <span class="tag">💄 妝容</span>
           <span class="tag">💎 亮晶晶</span>
         </div>
+        <h1>歡迎來到 <span class="nameGlow">GG</span> 的牆。</h1>
         <h1>Here is <span class="nameGlow">Garadise。</h1>
         <p class="sub">
           這裡收集：我的自拍、旅行風景、來福瞬間、日常碎片、妝容記錄。
@@ -356,7 +357,7 @@
       </div>
     </section>
 
-    <div class="footer">© GG ✧ y2k wall</div>
+    <div class="footer">© GG ✧ y2k wall • 玫粉/淺藍/嫩黃/黑白 • 閃閃發光 ✨</div>
   </div>
 
   <!-- Modal -->
@@ -391,6 +392,7 @@
  * ✅ 把你的照片放到倉庫 /assets/
  * 然後在這裡填檔名與分類：
  * categories: raifu / selfie / travel / daily / makeup
+ * tags 可隨意加：bling / heart / polka / fish / undersea / leopard / denim / pink / blue / yellow / black / white
  * ========================= */
 const GALLERY = [
   // 先放示例，你把 src 換成你自己的檔名就好：
@@ -407,11 +409,28 @@ const GALLERY = [
 const TAGS = [
   { key:"all", label:"全部" },
 
+  { key:"raifu",  label:"🐶 來福" },
+  { key:"selfie", label:"🪞 自拍" },
   { key:"raifu",  label:"🦴 來福" },
   { key:"selfie", label:"📱 自拍" },
   { key:"travel", label:"🏝️ 旅行" },
+  { key:"daily",  label:"🫧 日常" },
   { key:"daily",  label:"🚶‍♀️ 日常" },
   { key:"makeup", label:"💄 妝容" },
+
+  { key:"bling",  label:"💎 亮晶晶" },
+  { key:"heart",  label:"♡ 愛心" },
+  { key:"polka",  label:"• 波點" },
+  { key:"fish",   label:"🐟 魚" },
+  { key:"undersea",label:"🌊 海底" },
+  { key:"leopard",label:"🐆 豹紋" },
+  { key:"denim",  label:"👖 牛仔" },
+
+  { key:"pink",   label:"💗 玫粉" },
+  { key:"blue",   label:"🩵 淺藍" },
+  { key:"yellow", label:"💛 嫩黃" },
+  { key:"black",  label:"🖤 黑" },
+  { key:"white",  label:"🤍 白" },
 ];
 
 const pageSize = 8;
@@ -477,7 +496,7 @@ function bling(){
 /* ========= Floating stickers ========= */
 let fxEnabled = true;
 const floatLayer = document.getElementById("floatLayer");
-const stickers = ["♡","💎","✨","🐟","🌊","•","🖤","🤍"];
+const stickers = ["♡","💎","✨","🫧","🐟","🌊","•","🖤","🤍","💛","🩵"];
 let floatTimer = null;
 
 function startFloat(){
@@ -577,10 +596,18 @@ function pickSticker(item){
   const cats = new Set(item.categories||[]);
   const tags = new Set(item.tags||[]);
   if(cats.has("raifu")) return "🐶";
+  if(cats.has("selfie")) return "🪞";
   if(cats.has("selfie")) return "📱";
   if(cats.has("travel")) return "🏝️";
+  if(cats.has("daily")) return "🫧";
+  if(cats.has("makeup")) return "💄";
+  if(tags.has("bling")) return "💎";
+  if(tags.has("heart")) return "♡";
+  if(tags.has("fish")||tags.has("undersea")) return "🐟";
   if(cats.has("daily")) return "🚶‍♀️";
   if(cats.has("makeup")) return "💄"
+  if(tags.has("polka")) return "•";
+  return "✨";
 }
 
 function renderGrid(list){
@@ -662,7 +689,8 @@ function openModal(index){
 
   modalMeta.innerHTML =
     `<div><b>分類：</b>${esc(cats)}</div>
-     <div><b>標籤：</b>${esc(tags)}</div>;
+     <div><b>標籤：</b>${esc(tags)}</div>
+     <div style="margin-top:10px;"><b>色系：</b>玫粉 / 淺藍 / 嫩黃 / 黑白 ✨</div>`;
 
   mOpen.href = item.src;
   mDownload.href = item.src;
