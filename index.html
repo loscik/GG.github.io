@@ -356,7 +356,7 @@
       </div>
     </section>
 
-    <div class="footer">© GG ✧ y2k wall • 玫粉/淺藍/嫩黃/黑白 • 閃閃發光 ✨</div>
+    <div class="footer">© GG ✧ y2k wall</div>
   </div>
 
   <!-- Modal -->
@@ -477,7 +477,7 @@ function bling(){
 /* ========= Floating stickers ========= */
 let fxEnabled = true;
 const floatLayer = document.getElementById("floatLayer");
-const stickers = ["♡","💎","✨","🫧","🐟","🌊","•","🖤","🤍","💛","🩵"];
+const stickers = ["♡","💎","✨","🐟","🌊","•","🖤","🤍"];
 let floatTimer = null;
 
 function startFloat(){
@@ -581,8 +581,6 @@ function pickSticker(item){
   if(cats.has("travel")) return "🏝️";
   if(cats.has("daily")) return "🚶‍♀️";
   if(cats.has("makeup")) return "💄"
-  if(tags.has("polka")) return "•";
-  return "✨";
 }
 
 function renderGrid(list){
@@ -664,8 +662,7 @@ function openModal(index){
 
   modalMeta.innerHTML =
     `<div><b>分類：</b>${esc(cats)}</div>
-     <div><b>標籤：</b>${esc(tags)}</div>
-     <div style="margin-top:10px;"><b>色系：</b>玫粉 / 淺藍 / 嫩黃 / 黑白 ✨</div>`;
+     <div><b>標籤：</b>${esc(tags)}</div>;
 
   mOpen.href = item.src;
   mDownload.href = item.src;
